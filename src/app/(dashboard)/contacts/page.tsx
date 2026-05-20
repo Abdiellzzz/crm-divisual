@@ -13,28 +13,28 @@ export default function ContactsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filter, setFilter] = useState('all')
 
-  const filteredContacts = contacts.filter((contact) => {
+  const filteredContacts = contacts.filter((contact: any) => {
+    const firstName = contact.firstName ?? contact.first_name ?? ''
+    const lastName = contact.lastName ?? contact.last_name ?? ''
+    const email = contact.email ?? ''
+
     const matchesSearch =
-      contact.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contact.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contact.email.toLowerCase().includes(searchTerm.toLowerCase())
+      firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      email.toLowerCase().includes(searchTerm.toLowerCase())
 
     if (filter === 'all') return matchesSearch
     return matchesSearch && contact.status === filter
   })
 
   const getInitials = (firstName: string, lastName: string) => {
-    return (firstName[0] + lastName[0]).toUpperCase()
+    const fLetter = firstName ? firstName[0] : 'N'
+    const lLetter = lastName ? lastName[0] : 'A'
+    return (fLetter + lLetter).toUpperCase()
   }
 
   const avatarColors = ['bg-green-900', 'bg-red-900', 'bg-yellow-900', 'bg-blue-900', 'bg-cyan-900', 'bg-pink-900']
   const getAvatarColor = (index: number) => avatarColors[index % avatarColors.length]
-
-  const statusColorMap = {
-    lead: 'text-purple-400',
-    prospect: 'text-yellow-400',
-    customer: 'text-green-400',
-  }
 
   return (
     <div className="pb-10">
@@ -103,54 +103,60 @@ export default function ContactsPage() {
                 </td>
               </tr>
             ) : (
-              filteredContacts.map((contact, i) => (
-                <tr
-                  key={contact.id}
-                  className="border-b border-apex-bdr hover:bg-apex-s2 transition-colors last:border-0"
-                >
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-8 h-8 rounded-full ${getAvatarColor(i)} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {getInitials(contact.first_name, contact.last_name)}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-medium text-apex-txt truncate">
-                          {contact.first_name} {contact.last_name}
-                        </p>
-                        <p className="text-xs text-apex-txt2 truncate">{contact.email}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-apex-txt">-</td>
-                  <td className="px-4 py-3">
-                    <Badge status={contact.status} />
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-12 h-1 bg-apex-s2 rounded overflow-hidden">
+              filteredContacts.map((contact: any, i) => {
+                const firstName = contact.firstName ?? contact.first_name ?? ''
+                const lastName = contact.lastName ?? contact.last_name ?? ''
+                const email = contact.email ?? ''
+
+                return (
+                  <tr
+                    key={contact.id}
+                    className="border-b border-apex-bdr hover:bg-apex-s2 transition-colors last:border-0"
+                  >
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
                         <div
-                          className="h-full bg-apex-gold"
-                          style={{ width: `${contact.score}%` }}
-                        ></div>
+                          className={`w-8 h-8 rounded-full ${getAvatarColor(i)} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
+                        >
+                          {getInitials(firstName, lastName)}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-apex-txt truncate">
+                            {firstName} {lastName}
+                          </p>
+                          <p className="text-xs text-apex-txt2 truncate">{email}</p>
+                        </div>
                       </div>
-                      <span className="text-xs text-apex-txt2 w-8">{contact.score}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-xs font-semibold text-apex-gold">
-                    ${contact.value?.toLocaleString() || 0}
-                  </td>
-                  <td className="px-4 py-3 text-xs text-apex-txt2">—</td>
-                  <td className="px-4 py-3">
-                    <Link href={`/contacts/${contact.id}`}>
-                      <Button variant="ghost" size="sm">
-                        Ver →
-                      </Button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
+                    </td>
+                    <td className="px-4 py-3 text-xs text-apex-txt">-</td>
+                    <td className="px-4 py-3">
+                      <Badge status={contact.status} />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-12 h-1 bg-apex-s2 rounded overflow-hidden">
+                          <div
+                            className="h-full bg-apex-gold"
+                            style={{ width: `${contact.score}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-xs text-apex-txt2 w-8">{contact.score}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-xs font-semibold text-apex-gold">
+                      ${contact.value?.toLocaleString() || 0}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-apex-txt2">—</td>
+                    <td className="px-4 py-3">
+                      <Link href={`/contacts/${contact.id}`}>
+                        <Button variant="ghost" size="sm">
+                          Ver →
+                        </Button>
+                      </Link>
+                    </td>
+                  </tr>
+                )
+              })
             )}
           </tbody>
         </table>
