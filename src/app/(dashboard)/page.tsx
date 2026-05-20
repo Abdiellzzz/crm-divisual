@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { useDeals } from '@/hooks/useDeals'
 import { useContacts } from '@/hooks/useContacts'
+import type { Deal } from '@/lib/types'
 
 export default function DashboardPage() {
-  const { deals } = useDeals()
+  const { deals: rawDeals } = useDeals()
+  const deals = rawDeals as Deal[]
   const { contacts } = useContacts()
   const [kpis, setKpis] = useState({
     revenue: '$2.84M',
@@ -17,7 +19,6 @@ export default function DashboardPage() {
     avgTicket: '$19.8K',
   })
 
-  // Calculate KPIs from real data
   useEffect(() => {
     if (deals.length > 0) {
       const totalRevenue = deals.reduce((sum, deal) => sum + (deal.amount || 0), 0)
@@ -110,9 +111,7 @@ export default function DashboardPage() {
 
       {/* Charts and Activity */}
       <div className="grid grid-cols-3 gap-3 px-5">
-        {/* Main content */}
         <div className="col-span-2 space-y-3">
-          {/* Stage Distribution */}
           <Card>
             <p className="text-sm font-semibold text-apex-txt mb-4">Distribución por Etapa</p>
             <div className="space-y-2">
@@ -132,7 +131,6 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Activity Feed */}
         <Card>
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-apex-txt">Próximas Actividades</p>
