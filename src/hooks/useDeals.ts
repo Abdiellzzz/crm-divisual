@@ -23,7 +23,7 @@ export function useDeals() {
         .order('created_at', { ascending: false })
 
       if (err) throw err
-      setDeals(data || [])
+      setDeals((data as Deal[]) || [])
     } catch (err) {
       setError((err as Error).message)
     } finally {
@@ -53,13 +53,7 @@ export function useDeals() {
       try {
         const { error: err, data } = await supabase
           .from('deals')
-          .insert([
-            {
-              ...deal,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-          ])
+          .insert([deal])
           .select()
 
         if (err) throw err
