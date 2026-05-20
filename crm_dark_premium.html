@@ -1,0 +1,840 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#080808;--s1:#111111;--s2:#1A1A1A;--s3:#222222;
+    --gold:#FAC51C;--gold2:#E8B218;--gold3:rgba(250,197,28,0.12);--gold4:rgba(250,197,28,0.06);
+    --txt:#F5F5F5;--txt2:#A0A0A0;--txt3:#606060;
+    --bdr:rgba(255,255,255,0.06);--bdr2:rgba(250,197,28,0.2);
+    --green:#2ECC71;--red:#E74C3C;--orange:#F39C12;
+  }
+  .crm{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:800px;overflow:hidden;font-size:13px}
+  .nav{display:flex;align-items:center;gap:0;background:var(--s1);border-bottom:1px solid var(--bdr);height:52px;padding:0 20px}
+  .logo{font-size:15px;font-weight:700;letter-spacing:0.5px;color:var(--gold);margin-right:32px}
+  .logo span{color:var(--txt2);font-weight:400}
+  .nav-tabs{display:flex;gap:2px;flex:1}
+  .nav-tab{padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--txt2);transition:all 0.15s;border:none;background:none;white-space:nowrap}
+  .nav-tab:hover{background:var(--s2);color:var(--txt)}
+  .nav-tab.active{background:var(--gold3);color:var(--gold);border:1px solid var(--bdr2)}
+  .nav-right{display:flex;align-items:center;gap:10px}
+  .avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000}
+  .bell{width:30px;height:30px;border-radius:6px;background:var(--s2);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--bdr)}
+  .content{padding:20px}
+
+  /* DASHBOARD */
+  .screen{display:none}
+  .screen.active{display:block}
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .page-title{font-size:18px;font-weight:600}
+  .page-sub{font-size:12px;color:var(--txt2);margin-top:2px}
+  .btn-gold{background:var(--gold);color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif}
+  .btn-gold:hover{background:var(--gold2)}
+  .btn-outline{background:transparent;color:var(--txt2);border:1px solid var(--bdr);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+  .kpi-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:16px;position:relative;overflow:hidden}
+  .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .kpi-card.k1::before{background:var(--gold)}
+  .kpi-card.k2::before{background:var(--green)}
+  .kpi-card.k3::before{background:var(--orange)}
+  .kpi-card.k4::before{background:#8B5CF6}
+  .kpi-label{font-size:11px;color:var(--txt2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:500}
+  .kpi-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px}
+  .kpi-val.gold{color:var(--gold)}
+  .kpi-delta{font-size:11px;display:flex;align-items:center;gap:4px}
+  .delta-up{color:var(--green)}
+  .delta-down{color:var(--red)}
+  .kpi-icon{position:absolute;top:14px;right:14px;opacity:0.12;font-size:32px}
+
+  .dash-grid{display:grid;grid-template-columns:1fr 340px;gap:12px}
+  .chart-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:16px}
+  .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .chart-title{font-size:13px;font-weight:600}
+  .chart-legend{display:flex;gap:12px}
+  .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt2)}
+  .leg-dot{width:6px;height:6px;border-radius:50%}
+  .bar-chart{display:flex;align-items:flex-end;gap:6px;height:100px}
+  .bar-group{flex:1;display:flex;gap:2px;align-items:flex-end}
+  .bar{border-radius:3px 3px 0 0;min-width:8px;transition:opacity 0.15s;cursor:pointer}
+  .bar:hover{opacity:0.8}
+  .bar-labels{display:flex;gap:6px;margin-top:6px}
+  .bar-lbl{flex:1;text-align:center;font-size:10px;color:var(--txt3)}
+
+  .activity-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:16px}
+  .act-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .act-title{font-size:13px;font-weight:600}
+  .act-list{display:flex;flex-direction:column;gap:0}
+  .act-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bdr)}
+  .act-item:last-child{border-bottom:none}
+  .act-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+  .act-dot.meeting{background:var(--gold)}
+  .act-dot.call{background:var(--green)}
+  .act-dot.email{background:#8B5CF6}
+  .act-dot.deadline{background:var(--red)}
+  .act-body{flex:1}
+  .act-name{font-size:12px;font-weight:500}
+  .act-sub{font-size:11px;color:var(--txt2);margin-top:2px}
+  .act-time{font-size:11px;color:var(--txt3);white-space:nowrap}
+
+  /* CONTACTS */
+  .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .search-input{flex:1;background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px 8px 36px;color:var(--txt);font-size:12px;font-family:'Inter',sans-serif;outline:none;position:relative}
+  .search-input:focus{border-color:var(--bdr2)}
+  .search-wrap{position:relative;flex:1}
+  .search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:15px}
+  .filter-tabs{display:flex;gap:6px}
+  .ftab{padding:7px 14px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--bdr);background:transparent;color:var(--txt2);font-family:'Inter',sans-serif}
+  .ftab.active{background:var(--gold3);border-color:var(--bdr2);color:var(--gold)}
+
+  .table-wrap{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;overflow:hidden}
+  .tbl{width:100%;border-collapse:collapse}
+  .tbl th{padding:10px 14px;text-align:left;font-size:11px;font-weight:500;color:var(--txt3);text-transform:uppercase;letter-spacing:0.6px;background:var(--s2);border-bottom:1px solid var(--bdr);white-space:nowrap;cursor:pointer}
+  .tbl th:hover{color:var(--txt)}
+  .tbl td{padding:12px 14px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl tr:hover td{background:var(--s2)}
+  .contact-cell{display:flex;align-items:center;gap:10px}
+  .ava{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+  .ava.a1{background:#1a2a1a;color:var(--green)}
+  .ava.a2{background:#2a1a1a;color:var(--red)}
+  .ava.a3{background:#2a2a1a;color:var(--gold)}
+  .ava.a4{background:#1a1a2a;color:#8B5CF6}
+  .ava.a5{background:#1a2a2a;color:#06B6D4}
+  .ava.a6{background:#2a1a2a;color:#EC4899}
+  .cname{font-size:12px;font-weight:500}
+  .cemail{font-size:11px;color:var(--txt2)}
+  .badge{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+  .badge.lead{background:rgba(139,92,246,0.15);color:#8B5CF6}
+  .badge.prospect{background:rgba(250,197,28,0.15);color:var(--gold)}
+  .badge.customer{background:rgba(46,204,113,0.15);color:var(--green)}
+  .score-bar{width:60px;height:4px;background:var(--s3);border-radius:2px;overflow:hidden}
+  .score-fill{height:100%;border-radius:2px;background:var(--gold)}
+  .action-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:6px;padding:4px 8px;font-size:11px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif}
+  .action-btn:hover{border-color:var(--bdr2);color:var(--gold)}
+
+  /* PIPELINE */
+  .pipeline{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
+  .pipeline::-webkit-scrollbar{height:4px}
+  .pipeline::-webkit-scrollbar-track{background:var(--s2)}
+  .pipeline::-webkit-scrollbar-thumb{background:var(--txt3);border-radius:2px}
+  .pipe-col{flex:0 0 200px;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;overflow:hidden}
+  .pipe-head{padding:12px 14px;border-bottom:1px solid var(--bdr);position:relative}
+  .pipe-head::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .ph-title{font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between}
+  .ph-count{font-size:10px;color:var(--txt3);font-weight:400}
+  .ph-val{font-size:11px;color:var(--txt2);margin-top:4px}
+  .pipe-cards{padding:10px;display:flex;flex-direction:column;gap:8px;min-height:280px}
+  .deal-card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:10px;cursor:grab;transition:all 0.15s}
+  .deal-card:hover{border-color:var(--bdr2);transform:translateY(-1px)}
+  .deal-card.dragging{opacity:0.5;cursor:grabbing}
+  .deal-card.drag-over{border-color:var(--gold);background:var(--gold4)}
+  .dc-company{font-size:11px;font-weight:600;margin-bottom:4px}
+  .dc-contact{font-size:10px;color:var(--txt2);margin-bottom:8px}
+  .dc-footer{display:flex;justify-content:space-between;align-items:center}
+  .dc-val{font-size:11px;font-weight:600;color:var(--gold)}
+  .dc-prob{font-size:10px;color:var(--txt3)}
+  .dc-date{font-size:10px;color:var(--txt3)}
+  .col1::before{background:#8B5CF6}
+  .col2::before{background:var(--gold)}
+  .col3::before{background:#06B6D4}
+  .col4::before{background:var(--green)}
+  .col5::before{background:var(--orange)}
+  .col6::before{background:var(--red)}
+
+  /* CONTACT DETAIL */
+  .detail-grid{display:grid;grid-template-columns:300px 1fr;gap:16px}
+  .detail-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:20px}
+  .det-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),rgba(250,197,28,0.05));border:2px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:14px}
+  .det-name{font-size:16px;font-weight:700;margin-bottom:4px}
+  .det-role{font-size:12px;color:var(--txt2);margin-bottom:14px}
+  .det-fields{display:flex;flex-direction:column;gap:0}
+  .det-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr)}
+  .det-row:last-child{border-bottom:none}
+  .det-ico{font-size:14px;color:var(--txt3);width:16px;text-align:center}
+  .det-key{font-size:11px;color:var(--txt2);width:65px;flex-shrink:0}
+  .det-v{font-size:12px;font-weight:500}
+  .det-v.gold{color:var(--gold)}
+
+  .timeline-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:20px}
+  .tl-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .tl-list{display:flex;flex-direction:column;gap:0;position:relative}
+  .tl-list::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:1px;background:var(--bdr)}
+  .tl-item{display:flex;gap:14px;padding-bottom:18px;position:relative}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;position:relative;z-index:1}
+  .tl-circle.meeting{background:rgba(250,197,28,0.15);color:var(--gold);border:1px solid var(--bdr2)}
+  .tl-circle.email{background:rgba(139,92,246,0.15);color:#8B5CF6;border:1px solid rgba(139,92,246,0.3)}
+  .tl-circle.call{background:rgba(46,204,113,0.15);color:var(--green);border:1px solid rgba(46,204,113,0.3)}
+  .tl-circle.deal{background:rgba(250,197,28,0.2);color:var(--gold);border:1px solid var(--bdr2)}
+  .tl-body{flex:1;padding-top:4px}
+  .tl-title{font-size:12px;font-weight:600;margin-bottom:3px}
+  .tl-desc{font-size:11px;color:var(--txt2);line-height:1.5}
+  .tl-date{font-size:10px;color:var(--txt3);margin-top:4px}
+
+  /* NEW DEAL FORM */
+  .form-grid{display:grid;grid-template-columns:1fr 320px;gap:16px}
+  .form-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:24px}
+  .form-section{margin-bottom:20px}
+  .form-section-title{font-size:11px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--bdr)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .form-row.single{grid-template-columns:1fr}
+  .form-group{display:flex;flex-direction:column;gap:6px}
+  .form-label{font-size:11px;font-weight:500;color:var(--txt2)}
+  .form-input,.form-select,.form-textarea{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:12px;font-family:'Inter',sans-serif;outline:none;width:100%;transition:border-color 0.15s}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--bdr2)}
+  .form-input::placeholder{color:var(--txt3)}
+  .form-select{-webkit-appearance:none;cursor:pointer}
+  .form-select option{background:var(--s1)}
+  .form-textarea{resize:vertical;min-height:80px;line-height:1.5}
+  .deal-value-preview{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:20px}
+  .dvp-title{font-size:11px;color:var(--txt2);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;font-weight:500}
+  .dvp-amount{font-size:32px;font-weight:700;color:var(--gold);margin-bottom:4px}
+  .dvp-label{font-size:11px;color:var(--txt2)}
+  .dvp-divider{height:1px;background:var(--bdr);margin:14px 0}
+  .dvp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .dvp-key{font-size:11px;color:var(--txt2)}
+  .dvp-v{font-size:12px;font-weight:500}
+  .prob-slider{width:100%;accent-color:var(--gold);margin:4px 0}
+  .stage-pills{display:flex;flex-direction:column;gap:6px}
+  .stage-pill{padding:8px 12px;border-radius:8px;border:1px solid var(--bdr);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.12s}
+  .stage-pill:hover{background:var(--s3);border-color:var(--txt3)}
+  .stage-pill.selected{background:var(--gold3);border-color:var(--bdr2);color:var(--gold)}
+  .stage-pip{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.6}
+  .form-actions{display:flex;gap:8px;margin-top:20px}
+
+  .empty-tip{font-size:11px;color:var(--txt3);text-align:center;padding:20px;line-height:1.5}
+
+  /* Stats row */
+  .stats-mini{display:flex;gap:8px;margin-bottom:12px}
+  .stat-mini{background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px;font-size:11px;display:flex;flex-direction:column;gap:3px;flex:1}
+  .sm-label{color:var(--txt3);font-size:10px;text-transform:uppercase;letter-spacing:0.5px}
+  .sm-val{font-weight:600}
+</style>
+
+<div class="crm" role="main" aria-label="CRM Dashboard - Gestión de clientes y ventas">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">CRM premium en modo oscuro con dashboard, contactos, pipeline kanban, detalle de contacto y formulario de deal</h2>
+
+<nav class="nav">
+  <div class="logo">APEX<span> CRM</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('dashboard')"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</button>
+    <button class="nav-tab" onclick="showScreen('contacts')"><i class="ti ti-users" aria-hidden="true"></i> Contactos</button>
+    <button class="nav-tab" onclick="showScreen('pipeline')"><i class="ti ti-layout-kanban" aria-hidden="true"></i> Pipeline</button>
+    <button class="nav-tab" onclick="showScreen('detail')"><i class="ti ti-user-circle" aria-hidden="true"></i> Detalle</button>
+    <button class="nav-tab" onclick="showScreen('newdeal')"><i class="ti ti-plus" aria-hidden="true"></i> Nuevo Deal</button>
+  </div>
+  <div class="nav-right">
+    <div class="bell"><i class="ti ti-bell" style="font-size:15px;color:var(--txt2)" aria-hidden="true"></i></div>
+    <div class="avatar">CA</div>
+  </div>
+</nav>
+
+<!-- DASHBOARD -->
+<div class="screen active content" id="screen-dashboard">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Vista General</div>
+      <div class="page-sub">Mayo 2026 · Actualizado hace 3 min</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-outline">Exportar</button>
+      <button class="btn-gold"><i class="ti ti-plus" aria-hidden="true"></i> Nuevo Deal</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card k1">
+      <div class="kpi-label">Revenue Total</div>
+      <div class="kpi-val gold">$2.84M</div>
+      <div class="kpi-delta delta-up"><i class="ti ti-trending-up" style="font-size:12px" aria-hidden="true"></i> +18.4% vs mes anterior</div>
+      <div class="kpi-icon"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+    </div>
+    <div class="kpi-card k2">
+      <div class="kpi-label">Deals Activos</div>
+      <div class="kpi-val" style="color:var(--green)">143</div>
+      <div class="kpi-delta delta-up"><i class="ti ti-trending-up" style="font-size:12px" aria-hidden="true"></i> +12 esta semana</div>
+      <div class="kpi-icon"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
+    </div>
+    <div class="kpi-card k3">
+      <div class="kpi-label">Tasa de Cierre</div>
+      <div class="kpi-val" style="color:var(--orange)">67%</div>
+      <div class="kpi-delta delta-down"><i class="ti ti-trending-down" style="font-size:12px" aria-hidden="true"></i> -3.2% este mes</div>
+      <div class="kpi-icon"><i class="ti ti-target" aria-hidden="true"></i></div>
+    </div>
+    <div class="kpi-card k4">
+      <div class="kpi-label">Ticket Promedio</div>
+      <div class="kpi-val" style="color:#8B5CF6">$19.8K</div>
+      <div class="kpi-delta delta-up"><i class="ti ti-trending-up" style="font-size:12px" aria-hidden="true"></i> +7.1% vs Q1</div>
+      <div class="kpi-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div>
+      <div class="chart-card" style="margin-bottom:12px">
+        <div class="chart-header">
+          <div class="chart-title">Revenue por Mes</div>
+          <div class="chart-legend">
+            <div class="leg-item"><div class="leg-dot" style="background:var(--gold)"></div> 2026</div>
+            <div class="leg-item"><div class="leg-dot" style="background:var(--txt3)"></div> 2025</div>
+          </div>
+        </div>
+        <div class="bar-chart" id="bar-chart"></div>
+        <div class="bar-labels" id="bar-labels"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Distribución por Etapa</div>
+          <div style="font-size:11px;color:var(--txt2)">143 deals activos</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-end">
+          <div style="flex:1">
+            <div id="stage-bars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-card">
+      <div class="act-header">
+        <div class="act-title">Próximas Actividades</div>
+        <button class="action-btn">Ver todo</button>
+      </div>
+      <div class="act-list">
+        <div class="act-item">
+          <div class="act-dot meeting"></div>
+          <div class="act-body">
+            <div class="act-name">Demo con Grupo Meridian</div>
+            <div class="act-sub">Carlos Andrade · Zoom</div>
+            <div class="act-time" style="margin-top:4px">Hoy, 3:00 PM</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot call"></div>
+          <div class="act-body">
+            <div class="act-name">Llamada de seguimiento</div>
+            <div class="act-sub">Industrias Del Sur</div>
+            <div class="act-time" style="margin-top:4px">Hoy, 5:30 PM</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot email"></div>
+          <div class="act-body">
+            <div class="act-name">Enviar propuesta técnica</div>
+            <div class="act-sub">TechNova Solutions</div>
+            <div class="act-time" style="margin-top:4px">Mañana, 9:00 AM</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot deadline"></div>
+          <div class="act-body">
+            <div class="act-name">Contrato vence · Acero Global</div>
+            <div class="act-sub">Renovación pendiente</div>
+            <div class="act-time" style="margin-top:4px">Jue 22 May</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot meeting"></div>
+          <div class="act-body">
+            <div class="act-name">Onboarding · Constructora Norte</div>
+            <div class="act-sub">Laura Méndez · Presencial</div>
+            <div class="act-time" style="margin-top:4px">Vie 23 May</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot call"></div>
+          <div class="act-body">
+            <div class="act-name">Negociación final</div>
+            <div class="act-sub">Logística Andina · $84K</div>
+            <div class="act-time" style="margin-top:4px">Lun 26 May</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTS -->
+<div class="screen content" id="screen-contacts">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Contactos</div>
+      <div class="page-sub">847 contactos · 142 leads activos</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-outline"><i class="ti ti-upload" aria-hidden="true"></i> Importar</button>
+      <button class="btn-gold"><i class="ti ti-plus" aria-hidden="true"></i> Nuevo Contacto</button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <div class="search-wrap">
+      <i class="ti ti-search search-ico" aria-hidden="true"></i>
+      <input class="search-input" type="text" placeholder="Buscar por nombre, empresa, email…" aria-label="Buscar contactos">
+    </div>
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="filterContacts(this)">Todos</button>
+      <button class="ftab" onclick="filterContacts(this)">Lead</button>
+      <button class="ftab" onclick="filterContacts(this)">Prospect</button>
+      <button class="ftab" onclick="filterContacts(this)">Customer</button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Contacto <i class="ti ti-arrows-sort" style="font-size:11px" aria-hidden="true"></i></th>
+          <th>Empresa <i class="ti ti-arrows-sort" style="font-size:11px" aria-hidden="true"></i></th>
+          <th>Estado</th>
+          <th>Score <i class="ti ti-arrows-sort" style="font-size:11px" aria-hidden="true"></i></th>
+          <th>Valor <i class="ti ti-arrows-sort" style="font-size:11px" aria-hidden="true"></i></th>
+          <th>Último contacto</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a1">AM</div><div><div class="cname">Alejandro Mora</div><div class="cemail">a.mora@meridian.com</div></div></div></td>
+          <td style="font-size:12px">Grupo Meridian</td>
+          <td><span class="badge customer">Customer</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:88%"></div></div><span style="font-size:11px;color:var(--txt2)">88</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">$340K</td>
+          <td style="font-size:11px;color:var(--txt2)">Hace 2 días</td>
+          <td><button class="action-btn" onclick="showScreen('detail')">Ver →</button></td>
+        </tr>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a3">LR</div><div><div class="cname">Laura Restrepo</div><div class="cemail">l.restrepo@technova.io</div></div></div></td>
+          <td style="font-size:12px">TechNova Solutions</td>
+          <td><span class="badge prospect">Prospect</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:72%"></div></div><span style="font-size:11px;color:var(--txt2)">72</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">$128K</td>
+          <td style="font-size:11px;color:var(--txt2)">Hoy</td>
+          <td><button class="action-btn">Ver →</button></td>
+        </tr>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a2">RC</div><div><div class="cname">Roberto Castro</div><div class="cemail">r.castro@acerogl.com</div></div></div></td>
+          <td style="font-size:12px">Acero Global</td>
+          <td><span class="badge customer">Customer</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><span style="font-size:11px;color:var(--txt2)">95</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">$892K</td>
+          <td style="font-size:11px;color:var(--txt2)">Hace 1 día</td>
+          <td><button class="action-btn">Ver →</button></td>
+        </tr>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a4">MV</div><div><div class="cname">Mariana Vega</div><div class="cemail">m.vega@constrnorte.co</div></div></div></td>
+          <td style="font-size:12px">Constructora Norte</td>
+          <td><span class="badge prospect">Prospect</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:61%"></div></div><span style="font-size:11px;color:var(--txt2)">61</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">$210K</td>
+          <td style="font-size:11px;color:var(--txt2)">Hace 3 días</td>
+          <td><button class="action-btn">Ver →</button></td>
+        </tr>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a5">FP</div><div><div class="cname">Felipe Paredes</div><div class="cemail">f.paredes@logandina.com</div></div></div></td>
+          <td style="font-size:12px">Logística Andina</td>
+          <td><span class="badge lead">Lead</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:44%"></div></div><span style="font-size:11px;color:var(--txt2)">44</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">$84K</td>
+          <td style="font-size:11px;color:var(--txt2)">Hace 5 días</td>
+          <td><button class="action-btn">Ver →</button></td>
+        </tr>
+        <tr>
+          <td><div class="contact-cell"><div class="ava a6">SN</div><div><div class="cname">Sofía Navarro</div><div class="cemail">s.navarro@indusdelsur.net</div></div></div></td>
+          <td style="font-size:12px">Industrias Del Sur</td>
+          <td><span class="badge lead">Lead</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar"><div class="score-fill" style="width:31%"></div></div><span style="font-size:11px;color:var(--txt2)">31</span></div></td>
+          <td style="font-size:12px;font-weight:600;color:var(--gold)">—</td>
+          <td style="font-size:11px;color:var(--txt2)">Hoy</td>
+          <td><button class="action-btn">Ver →</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PIPELINE -->
+<div class="screen content" id="screen-pipeline">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Pipeline de Ventas</div>
+      <div class="page-sub">143 deals · $4.2M en curso</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-outline"><i class="ti ti-filter" aria-hidden="true"></i> Filtrar</button>
+      <button class="btn-gold" onclick="showScreen('newdeal')"><i class="ti ti-plus" aria-hidden="true"></i> Nuevo Deal</button>
+    </div>
+  </div>
+  <div class="stats-mini">
+    <div class="stat-mini"><div class="sm-label">Prospección</div><div class="sm-val" style="color:#8B5CF6">$420K</div></div>
+    <div class="stat-mini"><div class="sm-label">Calificación</div><div class="sm-val" style="color:var(--gold)">$680K</div></div>
+    <div class="stat-mini"><div class="sm-label">Propuesta</div><div class="sm-val" style="color:#06B6D4">$1.1M</div></div>
+    <div class="stat-mini"><div class="sm-label">Negociación</div><div class="sm-val" style="color:var(--green)">$890K</div></div>
+    <div class="stat-mini"><div class="sm-label">Cierre</div><div class="sm-val" style="color:var(--orange)">$640K</div></div>
+    <div class="stat-mini"><div class="sm-label">Ganados/Perdidos</div><div class="sm-val">32 / 8</div></div>
+  </div>
+  <div class="pipeline" id="kanban-board"></div>
+</div>
+
+<!-- CONTACT DETAIL -->
+<div class="screen content" id="screen-detail">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Perfil de Contacto</div>
+      <div class="page-sub">Alejandro Mora · Grupo Meridian</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-outline"><i class="ti ti-mail" aria-hidden="true"></i> Email</button>
+      <button class="btn-outline"><i class="ti ti-phone" aria-hidden="true"></i> Llamar</button>
+      <button class="btn-gold"><i class="ti ti-edit" aria-hidden="true"></i> Editar</button>
+    </div>
+  </div>
+  <div class="detail-grid">
+    <div>
+      <div class="detail-card" style="margin-bottom:12px">
+        <div class="det-avatar">AM</div>
+        <div class="det-name">Alejandro Mora</div>
+        <div class="det-role">Director Comercial · <span class="badge customer" style="font-size:10px">Customer</span></div>
+        <div class="det-fields">
+          <div class="det-row"><span class="det-ico"><i class="ti ti-building" aria-hidden="true"></i></span><span class="det-key">Empresa</span><span class="det-v">Grupo Meridian</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-mail" aria-hidden="true"></i></span><span class="det-key">Email</span><span class="det-v" style="font-size:11px">a.mora@meridian.com</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-phone" aria-hidden="true"></i></span><span class="det-key">Teléfono</span><span class="det-v">+57 300 8821 440</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-map-pin" aria-hidden="true"></i></span><span class="det-key">Ciudad</span><span class="det-v">Bogotá, Colombia</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-currency-dollar" aria-hidden="true"></i></span><span class="det-key">Valor</span><span class="det-v gold">$340,000</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-star" aria-hidden="true"></i></span><span class="det-key">Score</span><span class="det-v gold">88 / 100</span></div>
+          <div class="det-row"><span class="det-ico"><i class="ti ti-user" aria-hidden="true"></i></span><span class="det-key">Dueño</span><span class="det-v">Carlos Andrade</span></div>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600;margin-bottom:14px">Deals Asociados</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:10px">
+            <div style="font-size:11px;font-weight:600;margin-bottom:4px">Contrato Anual 2026</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="badge prospect" style="font-size:10px">Negociación</span>
+              <span style="font-size:12px;font-weight:600;color:var(--gold)">$240K</span>
+            </div>
+          </div>
+          <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:10px">
+            <div style="font-size:11px;font-weight:600;margin-bottom:4px">Expansión Q3</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="badge lead" style="font-size:10px">Propuesta</span>
+              <span style="font-size:12px;font-weight:600;color:var(--gold)">$100K</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="tl-header">
+        <div class="chart-title">Timeline de Actividades</div>
+        <button class="btn-gold" style="padding:6px 12px;font-size:11px"><i class="ti ti-plus" aria-hidden="true"></i> Actividad</button>
+      </div>
+      <div class="tl-list">
+        <div class="tl-item">
+          <div class="tl-circle meeting"><i class="ti ti-video" aria-hidden="true"></i></div>
+          <div class="tl-body">
+            <div class="tl-title">Demo de producto — Zoom</div>
+            <div class="tl-desc">Revisión de módulos de inventario y facturación. Cliente muy interesado en integración con SAP.</div>
+            <div class="tl-date">Hoy · 10:30 AM · <span style="color:var(--gold)">Carlos Andrade</span></div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-circle email"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div class="tl-body">
+            <div class="tl-title">Propuesta enviada</div>
+            <div class="tl-desc">Enviada propuesta comercial por $240K — contrato anual con 3 años de soporte.</div>
+            <div class="tl-date">Hace 3 días · <span style="color:var(--gold)">Carlos Andrade</span></div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-circle call"><i class="ti ti-phone" aria-hidden="true"></i></div>
+          <div class="tl-body">
+            <div class="tl-title">Llamada de cualificación</div>
+            <div class="tl-desc">45 min. Identificadas necesidades de automatización de reportes. BANT confirmado.</div>
+            <div class="tl-date">Hace 8 días · <span style="color:var(--gold)">María Torres</span></div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-circle email"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div class="tl-body">
+            <div class="tl-title">Primer contacto — LinkedIn</div>
+            <div class="tl-desc">Contacto entrante desde campaña de webinar. Solicitó información de planes enterprise.</div>
+            <div class="tl-date">Hace 21 días · <span style="color:var(--gold)">Sistema</span></div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-circle deal"><i class="ti ti-star" aria-hidden="true"></i></div>
+          <div class="tl-body">
+            <div class="tl-title">Contacto creado en CRM</div>
+            <div class="tl-desc">Importado desde formulario web. Score inicial: 31.</div>
+            <div class="tl-date">Hace 22 días · <span style="color:var(--gold)">Sistema</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW DEAL -->
+<div class="screen content" id="screen-newdeal">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Nuevo Deal</div>
+      <div class="page-sub">Crea un nuevo deal en el pipeline</div>
+    </div>
+    <button class="btn-outline" onclick="showScreen('pipeline')">← Volver al Pipeline</button>
+  </div>
+  <div class="form-grid">
+    <div>
+      <div class="form-card">
+        <div class="form-section">
+          <div class="form-section-title">Información del Deal</div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Nombre del Deal *</label>
+              <input class="form-input" type="text" placeholder="Ej: Grupo Meridian — Contrato Enterprise 2026" id="dealName" oninput="updatePreview()">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Valor estimado (USD) *</label>
+              <input class="form-input" type="number" placeholder="0" id="dealValue" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Moneda</label>
+              <select class="form-select"><option>USD</option><option>EUR</option><option>COP</option><option>MXN</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Fecha de cierre esperada</label>
+              <input class="form-input" type="date" id="dealDate">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tipo de deal</label>
+              <select class="form-select"><option>Nuevo negocio</option><option>Renovación</option><option>Expansión</option><option>Upsell</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Contacto y Empresa</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contacto principal</label>
+              <input class="form-input" type="text" placeholder="Buscar contacto...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Empresa</label>
+              <input class="form-input" type="text" placeholder="Buscar empresa...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Responsable</label>
+              <select class="form-select"><option>Carlos Andrade</option><option>María Torres</option><option>Luis Vega</option><option>Ana Ruiz</option></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Origen del lead</label>
+              <select class="form-select"><option>Inbound</option><option>Referido</option><option>Outbound</option><option>Evento</option><option>Partner</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Etapa del Pipeline</div>
+          <div class="stage-pills" id="stage-pills">
+            <div class="stage-pill" onclick="selectStage(this,'#8B5CF6')"><div class="stage-pip" style="background:#8B5CF6"></div> Prospección</div>
+            <div class="stage-pill selected" onclick="selectStage(this,'#FAC51C')"><div class="stage-pip"></div> Calificación</div>
+            <div class="stage-pill" onclick="selectStage(this,'#06B6D4')"><div class="stage-pip" style="background:#06B6D4"></div> Propuesta enviada</div>
+            <div class="stage-pill" onclick="selectStage(this,'#2ECC71')"><div class="stage-pip" style="background:#2ECC71"></div> Negociación</div>
+            <div class="stage-pill" onclick="selectStage(this,'#F39C12')"><div class="stage-pip" style="background:#F39C12"></div> Cierre pendiente</div>
+            <div class="stage-pill" onclick="selectStage(this,'#E74C3C')"><div class="stage-pip" style="background:#E74C3C"></div> Ganado / Cerrado</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Probabilidad de Cierre</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" class="prob-slider" min="0" max="100" value="40" id="probSlider" oninput="updateProb(this.value)">
+            <span style="font-size:14px;font-weight:700;color:var(--gold);min-width:36px" id="probVal">40%</span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Notas</div>
+          <div class="form-row single">
+            <div class="form-group">
+              <textarea class="form-textarea" placeholder="Contexto del deal, necesidades del cliente, próximos pasos..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-gold" style="flex:1">Crear Deal</button>
+          <button class="btn-outline">Guardar borrador</button>
+          <button class="btn-outline" onclick="showScreen('pipeline')">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="deal-value-preview">
+        <div class="dvp-title">Resumen del Deal</div>
+        <div class="dvp-amount" id="pvAmount">$0</div>
+        <div class="dvp-label">Valor estimado</div>
+        <div class="dvp-divider"></div>
+        <div class="dvp-row"><span class="dvp-key">Valor esperado</span><span class="dvp-v gold" id="pvExpected">$0</span></div>
+        <div class="dvp-row"><span class="dvp-key">Probabilidad</span><span class="dvp-v" id="pvProb">40%</span></div>
+        <div class="dvp-row"><span class="dvp-key">Etapa</span><span class="dvp-v" id="pvStage">Calificación</span></div>
+        <div class="dvp-row"><span class="dvp-key">Responsable</span><span class="dvp-v">Carlos Andrade</span></div>
+        <div class="dvp-divider"></div>
+        <div style="font-size:11px;color:var(--txt2);line-height:1.6">
+          El valor esperado se calcula multiplicando el valor del deal por la probabilidad de cierre.
+        </div>
+      </div>
+
+      <div class="deal-value-preview" style="margin-top:12px">
+        <div class="dvp-title">Tips para este deal</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <i class="ti ti-circle-check" style="font-size:14px;color:var(--gold);margin-top:1px" aria-hidden="true"></i>
+            <span style="font-size:11px;color:var(--txt2);line-height:1.5">Define una fecha de cierre realista para que aparezca en las alertas del dashboard.</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <i class="ti ti-circle-check" style="font-size:14px;color:var(--gold);margin-top:1px" aria-hidden="true"></i>
+            <span style="font-size:11px;color:var(--txt2);line-height:1.5">Agrega al menos un contacto principal para habilitar el timeline de actividades.</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <i class="ti ti-circle-check" style="font-size:14px;color:var(--gold);margin-top:1px" aria-hidden="true"></i>
+            <span style="font-size:11px;color:var(--txt2);line-height:1.5">Deals con notas detalladas tienen 23% más probabilidad de cierre según tu historial.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  const tabs=['dashboard','contacts','pipeline','detail','newdeal'];
+  const idx=tabs.indexOf(id);
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+}
+
+function filterContacts(el){
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago'];
+const d2026=[180,210,195,280,340,0,0,0];
+const d2025=[140,165,150,190,220,250,210,195];
+const chartEl=document.getElementById('bar-chart');
+const labelsEl=document.getElementById('bar-labels');
+const maxV=Math.max(...d2026,...d2025);
+months.forEach((m,i)=>{
+  const grp=document.createElement('div');
+  grp.className='bar-group';
+  const h25=d2025[i]/maxV*100;
+  const h26=d2026[i]/maxV*100;
+  if(d2025[i]>0){const b=document.createElement('div');b.className='bar';b.style.cssText=`height:${h25}px;background:#333;flex:1;min-width:6px`;grp.appendChild(b)}
+  if(d2026[i]>0){const b=document.createElement('div');b.className='bar';b.style.cssText=`height:${h26}px;background:#FAC51C;flex:1;min-width:6px`;grp.appendChild(b)}
+  chartEl.appendChild(grp);
+  const lbl=document.createElement('div');lbl.className='bar-lbl';lbl.textContent=m;labelsEl.appendChild(lbl);
+});
+
+const stages=[
+  {name:'Prospección',count:28,val:'$420K',color:'#8B5CF6',pct:80},
+  {name:'Calificación',count:35,val:'$680K',color:'#FAC51C',pct:70},
+  {name:'Propuesta',count:30,val:'$1.1M',color:'#06B6D4',pct:60},
+  {name:'Negociación',count:24,val:'$890K',color:'#2ECC71',pct:45},
+  {name:'Cierre',count:18,val:'$640K',color:'#F39C12',pct:30},
+  {name:'Ganados',count:8,val:'$470K',color:'#E74C3C',pct:15}
+];
+const sb=document.getElementById('stage-bars');
+stages.forEach(s=>{
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:6px';
+  row.innerHTML=`<span style="font-size:10px;color:var(--txt2);width:72px;text-align:right;flex-shrink:0">${s.name}</span><div style="flex:1;height:10px;background:var(--s2);border-radius:4px;overflow:hidden"><div style="width:${s.pct}%;height:100%;background:${s.color};border-radius:4px"></div></div><span style="font-size:10px;color:var(--txt2);width:36px">${s.count}</span>`;
+  sb.appendChild(row);
+});
+
+const kanbanData=[
+  {name:'Prospección',color:'#8B5CF6',cls:'col1',cards:[
+    {co:'Industrias Del Sur',ct:'Sofía Navarro',v:'$84K',p:'20%',d:'Jun 30'},
+    {co:'Distribuidora Beta',ct:'Jorge Pérez',v:'$45K',p:'15%',d:'Jul 15'},
+  ]},
+  {name:'Calificación',color:'#FAC51C',cls:'col2',cards:[
+    {co:'TechNova Solutions',ct:'Laura Restrepo',v:'$128K',p:'35%',d:'Jun 20'},
+    {co:'Logística Andina',ct:'Felipe Paredes',v:'$84K',p:'40%',d:'Jun 25'},
+    {co:'Almacenes Sur',ct:'Carmen Ruiz',v:'$62K',p:'30%',d:'Jul 5'},
+  ]},
+  {name:'Propuesta enviada',color:'#06B6D4',cls:'col3',cards:[
+    {co:'Constructora Norte',ct:'Mariana Vega',v:'$210K',p:'55%',d:'Jun 15'},
+    {co:'Petro Sur S.A.',ct:'Andrés Molina',v:'$380K',p:'50%',d:'Jun 18'},
+  ]},
+  {name:'Negociación',color:'#2ECC71',cls:'col4',cards:[
+    {co:'Grupo Meridian',ct:'Alejandro Mora',v:'$240K',p:'75%',d:'Jun 10'},
+    {co:'Minera Cordillera',ct:'Patricia León',v:'$420K',p:'70%',d:'Jun 12'},
+  ]},
+  {name:'Cierre pendiente',color:'#F39C12',cls:'col5',cards:[
+    {co:'Acero Global',ct:'Roberto Castro',v:'$892K',p:'90%',d:'Jun 5'},
+  ]},
+  {name:'Ganado / Cerrado',color:'#E74C3C',cls:'col6',cards:[
+    {co:'BancoPacífico',ct:'Diego Fernández',v:'$156K',p:'100%',d:'May 30'},
+  ]},
+];
+
+const board=document.getElementById('kanban-board');
+let dragCard=null,dragCol=null;
+
+kanbanData.forEach(col=>{
+  const colEl=document.createElement('div');
+  colEl.className=`pipe-col`;
+  colEl.dataset.col=col.name;
+  colEl.innerHTML=`<div class="pipe-head ${col.cls}"><div class="ph-title">${col.name} <span class="ph-count">${col.cards.length}</span></div><div class="ph-val">${col.cards.reduce((a,c)=>a,col.cards[0]?col.cards.map(c=>c.v).join(' · '):'—')}</div></div><div class="pipe-cards" id="col-${col.name.replace(/\s/g,'-')}"></div>`;
+  board.appendChild(colEl);
+  const cardsEl=colEl.querySelector('.pipe-cards');
+  col.cards.forEach(card=>{
+    const c=document.createElement('div');
+    c.className='deal-card';c.draggable=true;
+    c.innerHTML=`<div class="dc-company">${card.co}</div><div class="dc-contact">${card.ct}</div><div class="dc-footer"><span class="dc-val">${card.v}</span><span class="dc-prob">${card.p}</span></div><div class="dc-date" style="margin-top:6px"><i class="ti ti-calendar" style="font-size:10px" aria-hidden="true"></i> ${card.d}</div>`;
+    c.addEventListener('dragstart',e=>{dragCard=c;c.classList.add('dragging');e.dataTransfer.effectAllowed='move'});
+    c.addEventListener('dragend',()=>{dragCard=null;c.classList.remove('dragging');document.querySelectorAll('.pipe-cards').forEach(p=>p.classList.remove('drag-over'))});
+    cardsEl.appendChild(c);
+  });
+  cardsEl.addEventListener('dragover',e=>{e.preventDefault();cardsEl.classList.add('drag-over')});
+  cardsEl.addEventListener('dragleave',()=>cardsEl.classList.remove('drag-over'));
+  cardsEl.addEventListener('drop',e=>{e.preventDefault();if(dragCard)cardsEl.appendChild(dragCard);cardsEl.classList.remove('drag-over')});
+});
+
+function selectStage(el,color){
+  document.querySelectorAll('.stage-pill').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('pvStage').textContent=el.textContent.trim();
+}
+
+function updateProb(v){
+  document.getElementById('probVal').textContent=v+'%';
+  document.getElementById('pvProb').textContent=v+'%';
+  const val=parseInt(document.getElementById('dealValue').value)||0;
+  document.getElementById('pvExpected').textContent='$'+Math.round(val*v/100).toLocaleString();
+}
+
+function updatePreview(){
+  const val=parseInt(document.getElementById('dealValue').value)||0;
+  const prob=parseInt(document.getElementById('probSlider').value)||0;
+  document.getElementById('pvAmount').textContent='$'+val.toLocaleString();
+  document.getElementById('pvExpected').textContent='$'+Math.round(val*prob/100).toLocaleString();
+}
+</script>

@@ -1,0 +1,207 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║               ✨ BASE DE DATOS CON DATOS DE EJEMPLO - LISTO ✨               ║
+║                                                                               ║
+║                     PRUEBA TU CRM CON DATOS REALES                           ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 INSTRUCCIONES FINALES - HAZ ESTO AHORA
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⭐ OPCIÓN 1: Windows (RECOMENDADO)
+   ═════════════════════════════════
+
+   Haz DOBLE CLIC en: CREATE-DATABASE.bat
+
+   Esto hace:
+   ✅ Crea todas las tablas
+   ✅ Crea usuario: Carlos Martínez
+   ✅ Crea empresa: TechSolutions Inc
+   ✅ Crea contacto: Laura Rodríguez (prospect)
+   ✅ Crea 2 deals: ERP + Consultoría
+   ✅ Crea 4 actividades (llamadas, emails, reuniones)
+   ✅ ¡TODO LISTO PARA PROBAR!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⭐ OPCIÓN 2: Terminal
+   ══════════════════
+
+   node CREATE-EXAMPLE-DATA.js
+
+   O con Python:
+
+   python CREATE-EXAMPLE-DATA.py
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⏱️ TIEMPO: ~30 segundos
+
+   Se crea TODO automáticamente
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 QUÉ SE CREA
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 👤 USUARIO                                                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Nombre:      Carlos Martínez                                                │
+│ Email:       carlos.martinez@example.com                                    │
+│ Avatar:      Automático                                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🏢 EMPRESA                                                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Nombre:      TechSolutions Inc                                              │
+│ Industria:   Software Development                                           │
+│ Sitio Web:   www.techsolutions.com                                          │
+│ Ciudad:      San Francisco                                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📱 CONTACTO                                                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Nombre:      Laura Rodríguez                                                │
+│ Email:       laura.rodriguez@techsolutions.com                              │
+│ Teléfono:    +1-555-123-4567                                                │
+│ Empresa:     TechSolutions Inc                                              │
+│ Estado:      Prospect ⭐⭐⭐                                                 │
+│ Score:       75/100                                                         │
+│ Valor:       $50,000                                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 💰 OPORTUNIDADES DE VENTA #1                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Nombre:      Implementación de sistema ERP                                  │
+│ Monto:       $150,000 USD                                                   │
+│ Etapa:       PROPOSAL 🔄                                                    │
+│ Probabilidad: 70%                                                           │
+│ Cierre:      30 días                                                        │
+│ Notas:       Cliente muy interesado, seguimiento en martes                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 💰 OPORTUNIDADES DE VENTA #2                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Nombre:      Consultoría de transformación digital                          │
+│ Monto:       $75,000 USD                                                    │
+│ Etapa:       NEGOTIATION 📞                                                 │
+│ Probabilidad: 85%                                                           │
+│ Cierre:      15 días                                                        │
+│ Notas:       Negociación avanzada, presupuesto aprobado                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📅 ACTIVIDADES (4 eventos)                                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 1️⃣  Llamada inicial de descubrimiento                                       │
+│    Conversación con Laura sobre necesidades del proyecto                    │
+│                                                                             │
+│ 2️⃣  Propuesta enviada                                                       │
+│    Se envió propuesta de ERP con presupuesto                                │
+│    Vinculada a Deal #1                                                      │
+│                                                                             │
+│ 3️⃣  Reunión de equipo técnico                                               │
+│    Revisión de requerimientos técnicos con arquitecto                       │
+│    Vinculada a Deal #1                                                      │
+│                                                                             │
+│ 4️⃣  Presupuesto consultoría                                                 │
+│    Enviado presupuesto para transformación digital                          │
+│    Vinculada a Deal #2                                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 VALOR TOTAL DE OPORTUNIDADES: $225,000 USD
+
+   Deal 1: $150,000 (70% probabilidad = $105,000 esperado)
+   Deal 2: $75,000  (85% probabilidad = $63,750 esperado)
+   
+   Total esperado: ~$168,750
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 QUÉ PUEDES PROBAR EN EL CRM
+
+   1. Dashboard:
+      • Ver KPIs con los datos reales
+      • Valor total de deals: $225,000
+      • Ingresos esperados: $168,750
+      • Contactos: 1 prospect (75/100)
+
+   2. Contactos:
+      • Ver a Laura Rodríguez
+      • Revisar perfil y historial
+      • Ver todas sus actividades
+      • Ver sus deals asociados
+
+   3. Pipeline Kanban:
+      • Arrastrar deals entre etapas
+      • Ver deal de ERP en PROPOSAL
+      • Ver deal de Consultoría en NEGOTIATION
+      • Actualizar probabilidades
+
+   4. Actividades:
+      • Ver historial completo
+      • Llamadas, emails, reuniones
+      • Notas de seguimiento
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 PASO 1: EJECUTA AHORA
+   ═════════════════════
+
+   Haz DOBLE CLIC en: CREATE-DATABASE.bat
+
+   O en terminal:
+
+   node CREATE-EXAMPLE-DATA.js
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 PASO 2: INICIA EL SERVIDOR
+   ═════════════════════════════
+
+   npm run dev
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 PASO 3: ABRE EN NAVEGADOR
+   ═════════════════════════
+
+   http://localhost:3000
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ RESULTADO
+
+   Verás el CRM APEX con todos los datos de ejemplo listos para probar:
+   • Dashboard con métricas reales
+   • Contacto: Laura Rodríguez
+   • Empresa: TechSolutions Inc
+   • 2 deals en diferentes etapas
+   • 4 actividades de seguimiento
+
+═══════════════════════════════════════════════════════════════════════════════
+
+💡 TIPS
+
+   • Los datos son REALES en la BD (puedes editarlos)
+   • El Kanban es totalmente funcional
+   • Las actividades se registran automáticamente
+   • Todo está vinculado correctamente
+
+═══════════════════════════════════════════════════════════════════════════════
+
+                    🎉 ¡LISTO PARA EMPEZAR! 🎉
+
+              Haz DOBLE CLIC en: CREATE-DATABASE.bat
+
+═══════════════════════════════════════════════════════════════════════════════

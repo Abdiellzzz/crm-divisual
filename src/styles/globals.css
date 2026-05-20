@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  --apex-bg: #080808;
+  --apex-s1: #111111;
+  --apex-s2: #1a1a1a;
+  --apex-s3: #222222;
+  --apex-gold: #fac51c;
+  --apex-gold2: #e8b218;
+  --apex-gold3: rgba(250, 197, 28, 0.12);
+  --apex-gold4: rgba(250, 197, 28, 0.06);
+  --apex-txt: #f5f5f5;
+  --apex-txt2: #a0a0a0;
+  --apex-txt3: #606060;
+  --apex-bdr: rgba(255, 255, 255, 0.06);
+  --apex-bdr2: rgba(250, 197, 28, 0.2);
+  --apex-green: #2ecc71;
+  --apex-red: #e74c3c;
+  --apex-orange: #f39c12;
+  --apex-purple: #8b5cf6;
+  --apex-cyan: #06b6d4;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--apex-bg);
+  color: var(--apex-txt);
+  font-size: 13px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+}

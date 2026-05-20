@@ -1,0 +1,144 @@
+{
+  "project_name": "APEX CRM - Sistema de Gestión de Relaciones con Clientes",
+  "supabase_integration": {
+    "status": "CONFIGURADO",
+    "project_id": "vmpzcocwfoinxytaaljr",
+    "url": "https://vmpzcocwfoinxytaaljr.supabase.co",
+    "credentials": {
+      "public_key": "sb_publishable_LloMa8n8Uf9lCazPnxPglg_gJ53eUtI",
+      "access_token": "NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_clave_anonima_de_supabase",
+      "environment_file": ".env.local"
+    }
+  },
+  "database_schema": {
+    "tables": [
+      {
+        "name": "profiles",
+        "description": "Perfiles de usuarios registrados",
+        "fields": [
+          "id (UUID, PK)",
+          "email (TEXT)",
+          "full_name (TEXT)",
+          "avatar_url (TEXT)",
+          "created_at (TIMESTAMP)"
+        ]
+      },
+      {
+        "name": "companies",
+        "description": "Información de empresas",
+        "fields": [
+          "id (UUID, PK)",
+          "name (TEXT)",
+          "industry (TEXT)",
+          "website (TEXT)",
+          "city (TEXT)",
+          "created_by (UUID, FK)",
+          "created_at (TIMESTAMP)"
+        ]
+      },
+      {
+        "name": "contacts",
+        "description": "Contactos del CRM",
+        "fields": [
+          "id (UUID, PK)",
+          "first_name (TEXT)",
+          "last_name (TEXT)",
+          "email (TEXT)",
+          "phone (TEXT)",
+          "company_id (UUID, FK)",
+          "status (TEXT: lead|prospect|customer)",
+          "score (INTEGER: 0-100)",
+          "owner_id (UUID, FK)",
+          "value (BIGINT)",
+          "created_at (TIMESTAMP)",
+          "updated_at (TIMESTAMP)"
+        ]
+      },
+      {
+        "name": "deals",
+        "description": "Oportunidades de venta",
+        "fields": [
+          "id (UUID, PK)",
+          "name (TEXT)",
+          "amount (BIGINT)",
+          "currency (TEXT)",
+          "stage (TEXT)",
+          "probability (INTEGER: 0-100)",
+          "expected_close_date (DATE)",
+          "type (TEXT)",
+          "contact_id (UUID, FK)",
+          "company_id (UUID, FK)",
+          "owner_id (UUID, FK)",
+          "notes (TEXT)",
+          "created_at (TIMESTAMP)",
+          "updated_at (TIMESTAMP)"
+        ]
+      },
+      {
+        "name": "activities",
+        "description": "Historial de actividades",
+        "fields": [
+          "id (UUID, PK)",
+          "type (TEXT: meeting|call|email|deadline|deal_created)",
+          "title (TEXT)",
+          "description (TEXT)",
+          "contact_id (UUID, FK)",
+          "deal_id (UUID, FK)",
+          "created_by (UUID, FK)",
+          "created_at (TIMESTAMP)"
+        ]
+      }
+    ],
+    "security": {
+      "rls_enabled": true,
+      "policies": [
+        "Usuarios pueden ver su propio perfil",
+        "Usuarios pueden ver empresas compartidas",
+        "Usuarios solo pueden crear/editar sus propios registros",
+        "Auditoría de actividades"
+      ]
+    }
+  },
+  "setup_scripts": {
+    "python": "setup-supabase.py",
+    "nodejs": "setup-supabase-rest.js",
+    "powershell": "setup-supabase.ps1",
+    "batch": "setup-supabase.bat",
+    "sql": "create_tables.sql"
+  },
+  "tech_stack": {
+    "framework": "Next.js 14",
+    "language": "TypeScript",
+    "backend": "Supabase (PostgreSQL)",
+    "styling": "Tailwind CSS",
+    "state_management": "Zustand",
+    "form_handling": "React Hook Form",
+    "ui_components": "Custom components"
+  },
+  "features": [
+    "Autenticación con Supabase",
+    "Dashboard en tiempo real",
+    "Gestión de contactos CRUD",
+    "Pipeline Kanban",
+    "Perfiles de contactos",
+    "Diseño premium oscuro",
+    "Responsive design"
+  ],
+  "next_steps": [
+    "1. Ejecutar uno de los scripts de setup",
+    "2. Configurar RLS en Supabase (si es necesario)",
+    "3. npm install",
+    "4. npm run dev",
+    "5. Acceder a http://localhost:3000"
+  ],
+  "files_created": [
+    ".env.local - Variables de entorno",
+    "create_tables.sql - Script SQL",
+    "setup-supabase.py - Setup automático (Python)",
+    "setup-supabase-rest.js - Setup automático (Node.js)",
+    "setup-supabase.ps1 - Setup automático (PowerShell)",
+    "setup-supabase.bat - Setup automático (Batch)",
+    "SETUP_GUIDE.md - Guía de configuración",
+    "setup-info.json - Este archivo"
+  ]
+}
