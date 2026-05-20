@@ -105,14 +105,14 @@ export default function ContactDetailPage() {
         <div className="col-span-1">
           <Card className="mb-3">
             <div
-              className={`w-16 h-16 rounded-full ${avatarColors[contact.status]} flex items-center justify-center text-2xl font-bold mb-3`}
+              className={`w-16 h-16 rounded-full ${avatarColors[c.status as keyof typeof avatarColors] || 'bg-gray-900 text-gray-400'} flex items-center justify-center text-2xl font-bold mb-3`}
             >
               {getInitials()}
             </div>
-            <h2 className="text-lg font-bold text-apex-txt">{contact.first_name} {contact.last_name}</h2>
+            <h2 className="text-lg font-bold text-apex-txt">{c.first_name} {c.last_name}</h2>
             <p className="text-xs text-apex-txt2 mt-1">-</p>
             <div className="mt-2">
-              <Badge status={contact.status} />
+              <Badge status={c.status} />
             </div>
 
             <div className="mt-4 space-y-2 text-sm">
@@ -127,28 +127,28 @@ export default function ContactDetailPage() {
                 <i className="ti ti-mail text-apex-txt3 flex-shrink-0 text-xs"></i>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-apex-txt2">Email</p>
-                  <p className="text-xs text-apex-txt font-medium break-all">{contact.email}</p>
+                  <p className="text-xs text-apex-txt font-medium break-all">{c.email}</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <i className="ti ti-phone text-apex-txt3 flex-shrink-0 text-xs"></i>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-apex-txt2">Teléfono</p>
-                  <p className="text-xs text-apex-txt font-medium">{contact.phone || '-'}</p>
+                  <p className="text-xs text-apex-txt font-medium">{c.phone || '-'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <i className="ti ti-currency-dollar text-apex-txt3 flex-shrink-0 text-xs"></i>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-apex-txt2">Valor</p>
-                  <p className="text-xs text-apex-gold font-bold">${contact.value?.toLocaleString() || 0}</p>
+                  <p className="text-xs text-apex-gold font-bold">${c.value?.toLocaleString() || 0}</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <i className="ti ti-star text-apex-txt3 flex-shrink-0 text-xs"></i>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-apex-txt2">Score</p>
-                  <p className="text-xs text-apex-gold font-bold">{contact.score} / 100</p>
+                  <p className="text-xs text-apex-gold font-bold">{c.score} / 100</p>
                 </div>
               </div>
             </div>
