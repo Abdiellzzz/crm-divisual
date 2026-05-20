@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (deals.length > 0) {
-      const totalRevenue = deals.reduce((sum, deal) => sum + (deal.amount || 0), 0)
+      const totalRevenue = deals.reduce((sum, deal) => sum + ((deal as any).amount || 0), 0)
       const closedDeals = deals.filter(d => d.stage === 'closed_won').length
       const closeRate = deals.length > 0 ? Math.round((closedDeals / deals.length) * 100) : 0
       const avgTicket = deals.length > 0 ? Math.round(totalRevenue / deals.length) : 0
@@ -121,45 +121,3 @@ export default function DashboardPage() {
                   <div className="flex-1 h-2.5 bg-apex-s2 rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${stage.count * 3}%`, backgroundColor: stage.color }}
-                    ></div>
-                  </div>
-                  <span className="text-xs text-apex-txt2 w-8 text-right flex-shrink-0">{stage.count}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-
-        <Card>
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-semibold text-apex-txt">Próximas Actividades</p>
-            <Button variant="outline" size="sm">Ver todo</Button>
-          </div>
-          <div className="space-y-3">
-            {activities.map((activity, i) => (
-              <div key={i} className="flex gap-2 pb-3 border-b border-apex-bdr last:border-0 last:pb-0">
-                <div
-                  className="w-2 h-2 rounded-full flex-shrink-0 mt-1"
-                  style={{
-                    backgroundColor:
-                      activity.type === 'meeting'
-                        ? '#FAC51C'
-                        : activity.type === 'call'
-                          ? '#2ECC71'
-                          : '#8B5CF6',
-                  }}
-                ></div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-apex-txt">{activity.title}</p>
-                  <p className="text-xs text-apex-txt2 truncate">{activity.sub}</p>
-                  <p className="text-xs text-apex-txt3 mt-1">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
-    </div>
-  )
-}
