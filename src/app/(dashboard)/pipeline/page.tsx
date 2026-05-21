@@ -7,7 +7,8 @@ import { KanbanBoard } from '@/components/pipeline/KanbanBoard'
 import { useDeals } from '@/hooks/useDeals'
 
 export default function PipelinePage() {
-  const { deals } = useDeals()
+  const { deals: rawDeals } = useDeals()
+  const deals = (rawDeals || []) as any[]
 
   const stages = [
     { label: 'Prospección', value: '$420K' },

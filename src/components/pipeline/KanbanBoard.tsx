@@ -25,12 +25,13 @@ const STAGES = [
 ]
 
 export function KanbanBoard() {
-  const { deals, updateDealStage } = useDeals()
-  const [dealsMap, setDealsMap] = useState<Record<string, Deal[]>>({})
+  const { deals: rawDeals, updateDealStage } = useDeals()
+  const deals = (rawDeals || []) as any[]
+  const [dealsMap, setDealsMap] = useState<Record<string, any[]>>({})
   const [activeId, setActiveId] = useState<string | null>(null)
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { distance: 8 }),
+    useSensor(PointerSensor as any, { distance: 8 }),
     useSensor(KeyboardSensor)
   )
 

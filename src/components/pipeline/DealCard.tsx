@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities'
 import type { Deal } from '@/lib/types'
 
 interface DealCardProps {
-  deal: Deal
+  deal: any
   isDragging?: boolean
 }
 
